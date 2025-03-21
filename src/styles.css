@@ -1,0 +1,2468 @@
+/* ✅ Chatbot Styles */
+.chatbot-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1100;
+}
+
+/* ✅ Floating Chat Button */
+.chat-toggle {
+  background: linear-gradient(135deg, #0033A0, #0056D2);
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 50px;
+  padding: 14px 20px;
+  cursor: pointer;
+  transition: all 0.4s ease-in-out;
+  box-shadow: 0 6px 18px rgba(0, 51, 160, 0.4);
+}
+
+.chat-toggle:hover {
+  transform: scale(1.1);
+  background: linear-gradient(135deg, #0056D2, #0033A0);
+  box-shadow: 0 8px 24px rgba(0, 51, 160, 0.5);
+}
+
+/* ✅ Chat Window - Modern Glassmorphism */
+.chat-window {
+  width: 350px;
+  max-height: 500px;
+  background: #FFFFFF; /* Clean White */
+  border: 2px solid #0033A0;
+  backdrop-filter: blur(16px);
+  color: #001E6C;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  display: none;
+  flex-direction: column;
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+.chat-window.open {
+  display: flex;
+}
+
+/* ✅ Chat Header */
+.chat-header {
+  background: #0033A0;
+  color: white;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px;
+  font-size: 18px;
+  border-radius: 15px 15px 0 0;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+}
+
+.close-btn:hover {
+  transform: scale(1.2);
+  color: #FFD700;
+}
+
+/* ✅ Chat Body */
+.chat-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  scrollbar-width: thin;
+  scrollbar-color: #0033A0 #F5F5F5;
+}
+
+/* ✅ Smooth scrolling */
+.chat-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.chat-body::-webkit-scrollbar-thumb {
+  background: #0033A0;
+  border-radius: 10px;
+}
+
+.chat-message {
+  max-width: 80%;
+  padding: 12px;
+  border-radius: 12px;
+  word-wrap: break-word;
+  font-size: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* ✅ Chat Message Styling */
+.chat-message.user {
+  background: linear-gradient(135deg, #FFD700, #0033A0);
+  align-self: flex-end;
+  color: white;
+}
+
+.chat-message.bot {
+  background: linear-gradient(135deg, #F5F5F5, #0033A0);
+  align-self: flex-start;
+  color: #001E6C;
+}
+
+/* ✅ Chat Input */
+.chat-input-container {
+  display: flex;
+  padding: 12px;
+  background: #0033A0;
+  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.chat-input-container input {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  background: rgba(245, 245, 245, 0.9);
+  color: #001E6C;
+  outline: none;
+  transition: all 0.3s ease-in-out;
+}
+
+.chat-input-container input:focus {
+  background: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.chat-input-container input::placeholder {
+  color: #0033A0;
+}
+
+/* ✅ Chat Send Button */
+.chat-input-container button {
+  margin-left: 10px;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, #FFD700, #0033A0);
+  border: none;
+  color: white;
+  font-weight: bold;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.4s ease-in-out;
+}
+
+.chat-input-container button:hover {
+  transform: scale(1.1);
+  background: linear-gradient(135deg, #0033A0, #FFD700);
+  box-shadow: 0 4px 12px rgba(0, 51, 160, 0.5);
+}
+
+/* ✅ Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ✅ Responsive Chat Styling */
+@media (max-width: 768px) {
+  .chat-window {
+    width: 90%;
+    max-height: 80vh;
+  }
+
+  .chatbot-container {
+    bottom: 15px;
+    right: 15px;
+  }
+
+  .chat-toggle {
+    padding: 12px 18px;
+    font-size: 14px;
+  }
+}
+
+
+/* ✅ Footer Styles - Premium MNC Look */
+.footer {
+  background: #FFFFFF; /* Clean White */
+  color: #001E6C; /* Dark Blue Text */
+  padding: 50px 25px;
+  text-align: center;
+  font-size: 15px;
+  border-top: 5px solid #0033A0; /* Primary Blue Border */
+  position: relative;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/* ✅ Footer Container */
+.footer-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  max-width: 1300px;
+  margin: auto;
+  gap: 25px;
+}
+
+/* ✅ Footer Sections */
+.footer-section {
+  flex: 1;
+  min-width: 260px;
+  margin: 12px;
+}
+
+.footer-section h3 {
+  font-size: 19px;
+  margin-bottom: 14px;
+  color: #0033A0; /* Primary Blue */
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  position: relative;
+  padding-bottom: 6px;
+  transition: all 0.3s ease-in-out;
+}
+
+.footer-section h3:hover {
+  transform: scale(1.05);
+  text-shadow: 0 0 10px rgba(0, 51, 160, 0.3);
+}
+
+.footer-section h3::after {
+  content: "";
+  width: 40px;
+  height: 3px;
+  background: #0033A0;
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  border-radius: 5px;
+}
+
+/* ✅ Footer Links */
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-section ul li {
+  margin: 10px 0;
+  transition: transform 0.2s ease-in-out;
+}
+
+.footer-section ul li:hover {
+  transform: translateX(6px);
+}
+
+.footer-section ul li a {
+  color: #001E6C; /* Dark Blue */
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease-in-out, transform 0.2s;
+}
+
+.footer-section ul li a:hover {
+  color: #0033A0;
+  transform: translateX(6px);
+}
+
+/* ✅ Contact Section */
+.footer-section address {
+  font-style: normal;
+  line-height: 1.8;
+}
+
+.footer-section address a {
+  color: #001E6C;
+  text-decoration: none;
+  transition: color 0.3s ease-in-out;
+}
+
+.footer-section address a:hover {
+  color: #0033A0;
+}
+
+/* ✅ Social Icons - 3D Hover Effect */
+.social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 12px;
+}
+
+.social-icons a {
+  display: inline-flex;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(0, 51, 160, 0.2), rgba(0, 51, 160, 0.05));
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 8px rgba(0, 51, 160, 0.2);
+  border: 1px solid rgba(0, 51, 160, 0.3);
+  backdrop-filter: blur(8px);
+}
+
+.social-icons a:hover {
+  background: #0033A0;
+  transform: scale(1.2);
+  box-shadow: 0 6px 12px rgba(0, 51, 160, 0.4);
+  border: none;
+}
+
+.social-icons img {
+  width: 24px;
+  height: 24px;
+  filter: brightness(0) invert(1);
+}
+
+/* ✅ Copyright Notice */
+.footer-bottom {
+  margin-top: 25px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(0, 51, 160, 0.3);
+  font-size: 14px;
+  color: #001E6C;
+}
+
+/* ✅ Footer Glow Effect */
+.footer::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 70%;
+  height: 8px;
+  background: linear-gradient(90deg, transparent, #0033A0, transparent);
+  transform: translateX(-50%);
+  opacity: 0.8;
+  box-shadow: 0 0 12px rgba(0, 51, 160, 0.3);
+}
+
+/* ✅ Footer Hover Animation */
+.footer:hover {
+  background: linear-gradient(135deg, #F5F5F5, #D0D8FF);
+  transition: background 0.5s ease-in-out;
+}
+
+/* ✅ Responsive Design */
+@media (max-width: 768px) {
+  .footer-container {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .social-icons {
+    gap: 10px;
+  }
+}
+
+/* ✅ Fix Overlapping - Prevent Navbar from Hiding Content */
+body {
+  padding-top: 80px; /* Matches the navbar height */
+  overflow-x: hidden;
+}
+
+/* ✅ Navbar Styles - Billion $ MNC Level */
+.navbar {
+  background: #FFFFFF; /* Clean White */
+  border-bottom: 3px solid #0033A0; /* Primary Blue */
+  padding: 14px 22px;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1100;
+  transition: background 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Lighter shadow for better performance */
+  height: 80px; /* Ensures uniform height */
+  display: flex;
+  align-items: center;
+}
+
+/* ✅ Navbar Scroll Effect - Improved */
+.navbar.scrolled {
+  background: #F8F9FA;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* ✅ Navbar Container */
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1300px;
+  margin: auto;
+  padding: 0 20px;
+}
+
+/* ✅ Logo */
+.nav-logo {
+  font-size: 26px;
+  font-weight: bold;
+  color: #0033A0;
+  text-decoration: none;
+  transition: color 0.3s ease-in-out;
+}
+
+.nav-logo:hover, .nav-logo:focus {
+  color: #001E6C;
+  text-shadow: 0 0 10px rgba(0, 51, 160, 0.3);
+  outline: none;
+}
+
+/* ✅ Navigation Links */
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 22px;
+  margin: 0;
+}
+
+/* ✅ Navbar Links - Improved */
+.nav-links a {
+  text-decoration: none;
+  font-size: 17px;
+  color: #001E6C; /* Dark Blue */
+  font-weight: 500;
+  padding: 12px 18px;
+  transition: color 0.3s ease-in-out, transform 0.2s ease-in-out;
+  position: relative;
+  outline: none;
+}
+
+/* ✅ Animated Underline */
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -4px;
+  width: 0;
+  height: 3px;
+  background: #0033A0;
+  transition: width 0.3s ease-in-out, left 0.3s ease-in-out;
+  border-radius: 4px;
+}
+
+.nav-links a:hover::after, 
+.nav-links a:focus::after {
+  width: 100%;
+  left: 0;
+}
+
+.nav-links a:hover, 
+.nav-links a:focus {
+  color: #0033A0;
+  transform: translateY(-2px);
+}
+
+/* ✅ Active Link - Improved Indicator */
+.nav-links a.active {
+  color: #0033A0;
+  font-weight: bold;
+  border-bottom: 3px solid #0033A0;
+}
+
+/* ✅ Logout Button - Improved Interactions */
+.logout-btn {
+  background: linear-gradient(135deg, #0033A0, #001E6C);
+  border: none;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 12px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 10px rgba(0, 51, 160, 0.3);
+  outline: none;
+}
+
+.logout-btn:hover, .logout-btn:focus {
+  background: linear-gradient(135deg, #001E6C, #0033A0);
+  transform: scale(1.08);
+  box-shadow: 0 6px 14px rgba(0, 51, 160, 0.4);
+}
+
+/* ✅ Mobile Menu Icon - Better Touch Interaction */
+.menu-icon {
+  display: none;
+  background: none;
+  border: none;
+  color: #0033A0;
+  font-size: 28px;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+  outline: none;
+}
+
+.menu-icon:hover, .menu-icon:focus {
+  transform: scale(1.1);
+  color: #001E6C;
+}
+
+/* ✅ Responsive Design - Fix Overlap & Improve UX */
+@media (max-width: 900px) {
+  .menu-icon {
+    display: block;
+  }
+
+  .nav-links {
+    position: absolute;
+    top: 80px; /* Pushes menu below navbar */
+    left: 0;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.98);
+    flex-direction: column;
+    align-items: center;
+    padding: 22px 0;
+    transform: translateY(-120%);
+    transition: transform 0.4s ease-in-out, opacity 0.3s ease-in-out;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+    opacity: 0;
+    overflow: hidden;
+  }
+
+  .nav-links.active {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .nav-links li {
+    margin: 12px 0;
+  }
+
+  .nav-links a {
+    font-size: 19px;
+    font-weight: bold;
+  }
+
+  .nav-links a:hover, .nav-links a:focus {
+    color: #001E6C;
+    transform: scale(1.05);
+  }
+}
+
+/* ✅ Smooth Mobile Menu Opening */
+@keyframes slideIn {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* ✅ Fix AI Recommendation Section Overlapping */
+.ai-recommend-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 80px); /* Prevents overlapping */
+  background: #F5F5F5;
+  padding: 20px;
+}
+
+/* ✅ Smooth Loading Animation */
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 18px;
+  font-weight: bold;
+  color: #0033A0;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+/* ✅ Spinning Animation */
+.loading-spinner::after {
+  content: "";
+  width: 32px;
+  height: 32px;
+  margin-left: 12px;
+  border: 4px solid transparent;
+  border-top: 4px solid #0033A0;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* ✅ Animations */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+
+/* ✅ Form Container - MNC Level */
+.form-container {
+  max-width: 420px;
+  margin: 60px auto;
+  padding: 28px;
+  background: #FFFFFF; /* Clean White */
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  color: #001E6C; /* Dark Blue Text */
+  animation: fadeIn 0.5s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  overflow: hidden;
+}
+
+/* ✅ Hover Lift Effect */
+.form-container:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* ✅ Heading */
+.form-container h2 {
+  font-size: 24px;
+  margin-bottom: 18px;
+  color: #0033A0; /* Primary Blue */
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+/* ✅ Labels */
+.form-container label {
+  display: block;
+  font-size: 15px;
+  font-weight: bold;
+  color: #001E6C; /* Dark Blue */
+  text-align: left;
+  margin: 12px 0 6px;
+}
+
+/* ✅ Input Fields */
+.form-container input,
+.form-container select {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  font-size: 15px;
+  outline: none;
+  background: #F8F9FA;
+  color: #001E6C;
+  transition: all 0.3s ease-in-out;
+}
+
+/* ✅ Focus Glow Effect */
+.form-container input:focus,
+.form-container select:focus {
+  border: 2px solid #0033A0;
+  box-shadow: 0 0 10px rgba(0, 51, 160, 0.4);
+}
+
+/* ✅ Error Message */
+.error-message {
+  color: #E26972;
+  font-size: 15px;
+  font-weight: bold;
+  margin-bottom: 12px;
+  animation: shake 0.3s ease-in-out;
+  background: rgba(255, 0, 0, 0.1);
+  padding: 8px;
+  border-radius: 6px;
+}
+
+/* ✅ Submit Button */
+.form-container button {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #0033A0, #001E6C);
+  color: white;
+  font-weight: bold;
+  font-size: 17px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.4s ease-in-out;
+  margin-top: 14px;
+  box-shadow: 0 6px 16px rgba(0, 51, 160, 0.3);
+}
+
+/* ✅ Button Hover Effect */
+.form-container button:hover {
+  transform: scale(1.08);
+  background: linear-gradient(135deg, #001E6C, #0033A0);
+  box-shadow: 0 8px 22px rgba(0, 51, 160, 0.4);
+}
+
+/* ✅ Disabled Button */
+.form-container button:disabled {
+  background: rgba(0, 0, 0, 0.1);
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* ✅ Smooth Placeholder Text */
+.form-container input::placeholder,
+.form-container select::placeholder {
+  color: rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease-in-out;
+}
+
+.form-container input:focus::placeholder,
+.form-container select:focus::placeholder {
+  color: transparent;
+}
+
+/* ✅ Subtle Glow Effect */
+.form-container::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  width: 80%;
+  height: 7px;
+  background: linear-gradient(90deg, transparent, #0033A0, transparent);
+  transform: translateX(-50%);
+  opacity: 0.8;
+  box-shadow: 0 0 12px rgba(0, 51, 160, 0.3);
+}
+
+/* ✅ Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}
+
+/* ✅ Responsive Design */
+@media (max-width: 768px) {
+  .form-container {
+    max-width: 90%;
+    padding: 24px;
+  }
+
+  .form-container h2 {
+    font-size: 22px;
+  }
+}
+
+/* ✅ Wrapper Styling - Proper Centering & Navbar Fix */
+.ai-recommend-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Ensures full vertical centering */
+  background: #F5F5F5; /* Soft Gray */
+  padding: 20px;
+}
+
+/* ✅ Main Container - Perfectly Centered */
+.ai-recommend-container {
+  max-width: 520px;
+  width: 100%;
+  padding: 26px;
+  background: #FFFFFF; /* Clean White */
+  border-radius: 16px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  color: #001E6C; /* Dark Blue Text */
+  animation: fadeIn 0.5s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  position: relative;
+  margin-top: 80px; /* Pushes content below the navbar */
+}
+
+/* ✅ Hover Elevation */
+.ai-recommend-container:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* ✅ Heading - Now Fully Visible */
+.ai-recommend-container h2 {
+  font-size: 26px;
+  color: #0033A0; /* Royal Blue */
+  font-weight: bold;
+  margin-bottom: 18px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+/* ✅ Progress Bar */
+.progress-bar-container {
+  width: 100%;
+  height: 10px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  margin-bottom: 18px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(135deg, #0033A0, #001E6C);
+  transition: width 0.4s ease-in-out;
+}
+
+/* ✅ Loading Spinner */
+.loading-container {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.loading-spinner {
+  width: 34px;
+  height: 34px;
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-top: 4px solid #0033A0;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  display: inline-block;
+}
+
+.loading-container p {
+  font-size: 15px;
+  color: #0033A0;
+  margin-top: 10px;
+}
+
+/* ✅ Recommendation Box */
+.recommendation-box {
+  margin-top: 24px;
+  padding: 18px;
+  background: #F8F9FA;
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  text-align: left;
+  transition: all 0.3s ease-in-out;
+}
+
+.recommendation-box:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+}
+
+.recommendation-box h3 {
+  color: #0033A0;
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+
+.recommendation-box p {
+  font-size: 16px;
+  color: #001E6C;
+  line-height: 1.7;
+}
+
+/* ✅ Placeholder Text */
+.placeholder-text {
+  font-size: 15px;
+  color: rgba(0, 0, 0, 0.5);
+  margin-top: 12px;
+}
+
+/* ✅ Primary Button */
+.btn-primary {
+  display: inline-block;
+  padding: 14px 22px;
+  background: linear-gradient(135deg, #0033A0, #001E6C);
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.4s ease-in-out;
+  margin-top: 16px;
+  box-shadow: 0 6px 18px rgba(0, 51, 160, 0.3);
+}
+
+/* ✅ Button Hover Effect */
+.btn-primary:hover {
+  transform: scale(1.1);
+  background: linear-gradient(135deg, #001E6C, #0033A0);
+  box-shadow: 0 10px 26px rgba(0, 51, 160, 0.4);
+}
+
+/* ✅ Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* ✅ Responsive Design */
+@media (max-width: 768px) {
+  .ai-recommend-container {
+    max-width: 90%;
+    padding: 24px;
+  }
+
+  .progress-bar-container {
+    height: 8px;
+  }
+
+  .btn-primary {
+    font-size: 16px;
+    padding: 12px 18px;
+  }
+}
+
+
+/* ✅ Dashboard Container - Modern & Professional */
+.dashboard-container {
+  max-width: 900px;
+  margin: 90px auto;
+  padding: 30px;
+  background: #FFFFFF; /* Clean White Background */
+  border-radius: 16px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  color: #001E6C; /* Dark Blue Text */
+  animation: fadeIn 0.5s ease-in-out;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  overflow: hidden;
+}
+
+/* ✅ Hover Lift Effect */
+.dashboard-container:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* ✅ Heading */
+.dashboard-container h1 {
+  font-size: 30px;
+  font-weight: bold;
+  color: #0033A0; /* Royal Blue */
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1.6px;
+}
+
+/* ✅ Profile Summary Card */
+.profile-summary {
+  background: #F5F5F5; /* Light Gray */
+  padding: 20px;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  margin-bottom: 24px;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.profile-summary:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.15);
+}
+
+/* ✅ Profile Heading */
+.profile-summary h3 {
+  color: #0033A0; /* Royal Blue */
+  font-size: 21px;
+  margin-bottom: 12px;
+  font-weight: bold;
+}
+
+/* ✅ Profile Description */
+.profile-summary p {
+  font-size: 16px;
+  color: #001E6C; /* Dark Blue */
+  line-height: 1.7;
+}
+
+/* ✅ CTA Button */
+.btn-primary {
+  display: inline-block;
+  padding: 14px 22px;
+  background: linear-gradient(135deg, #0033A0, #001E6C);
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.4s ease-in-out;
+  margin-top: 18px;
+  box-shadow: 0 8px 24px rgba(0, 51, 160, 0.3);
+}
+
+/* ✅ Button Hover Effect */
+.btn-primary:hover {
+  transform: scale(1.1);
+  background: linear-gradient(135deg, #001E6C, #0033A0);
+  box-shadow: 0 10px 28px rgba(0, 51, 160, 0.4);
+}
+
+/* ✅ Subtle Section Divider */
+.divider {
+  width: 80%;
+  height: 2px;
+  background: rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  border-radius: 4px;
+}
+
+/* ✅ Responsive Design */
+@media (max-width: 768px) {
+  .dashboard-container {
+    max-width: 90%;
+    padding: 28px;
+  }
+
+  .profile-summary {
+    padding: 18px;
+  }
+
+  .btn-primary {
+    font-size: 16px;
+    padding: 12px 18px;
+  }
+}
+
+/* ✅ Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+
+/* ✅ Sections (Diet & Workout Plans) - Premium Glassmorphism */
+.section {
+  background: #FFFFFF; /* Clean White Background */
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.1);
+  margin-bottom: 24px;
+  text-align: left;
+  transition: all 0.3s ease-in-out;
+}
+
+/* ✅ Hover Effect */
+.section:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.15);
+}
+
+/* ✅ Section Headings */
+.section h2 {
+  font-size: 22px;
+  color: #0033A0; /* Royal Blue */
+  margin-bottom: 14px;
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 1.4px;
+}
+
+/* ✅ Diet & Workout Plan Cards */
+.diet-plan, .workout-plan {
+  background: #F5F5F5; /* Light Gray */
+  padding: 16px;
+  border-radius: 12px;
+  margin-top: 12px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+}
+
+/* ✅ Plan Card Hover Effect */
+.diet-plan:hover, .workout-plan:hover {
+  transform: scale(1.06);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.15);
+}
+
+/* ✅ Plan Titles */
+.diet-plan h4, .workout-plan h4 {
+  font-size: 19px;
+  color: #0033A0; /* Royal Blue */
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* ✅ Plan Text */
+.diet-plan p, .workout-plan p {
+  font-size: 16px;
+  color: #001E6C; /* Dark Blue */
+  line-height: 1.7;
+}
+
+/* ✅ Loading Spinner */
+.loading-spinner {
+  font-size: 18px;
+  color: #0033A0; /* Royal Blue */
+  margin-top: 20px;
+  animation: pulse 1s infinite;
+}
+
+/* ✅ Logout Button */
+.logout-btn {
+  display: inline-block;
+  padding: 14px 22px;
+  background: linear-gradient(135deg, #0033A0, #001E6C);
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.4s ease-in-out;
+  margin-top: 18px;
+  box-shadow: 0 8px 24px rgba(0, 51, 160, 0.3);
+}
+
+/* ✅ Logout Button Hover Effect */
+.logout-btn:hover {
+  transform: scale(1.1);
+  background: linear-gradient(135deg, #001E6C, #0033A0);
+  box-shadow: 0 10px 28px rgba(0, 51, 160, 0.4);
+}
+
+/* ✅ Subtle Glow Effect */
+.section::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  width: 80%;
+  height: 8px;
+  background: linear-gradient(90deg, transparent, #0033A0, transparent);
+  transform: translateX(-50%);
+  opacity: 0.8;
+  box-shadow: 0 0 12px rgba(0, 51, 160, 0.3);
+}
+
+/* ✅ Responsive Design */
+@media (max-width: 768px) {
+  .section {
+    padding: 18px;
+  }
+
+  .diet-plan, .workout-plan {
+    padding: 14px;
+  }
+
+  .logout-btn {
+    font-size: 16px;
+    padding: 12px 18px;
+  }
+}
+
+/* ✅ Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0% { opacity: 0.7; }
+  50% { opacity: 1; }
+  100% { opacity: 0.7; }
+}
+
+
+
+/* ✅ Diet Plan Container - Premium Glassmorphism */
+.diet-plan-container {
+  max-width: 550px;
+  margin: 90px auto;
+  padding: 30px;
+  background: #FFFFFF; /* Clean White Background */
+  border-radius: 16px;
+  box-shadow: 0 12px 38px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  color: #001E6C; /* Dark Blue for Text */
+  animation: fadeIn 0.5s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  overflow: hidden;
+}
+
+/* ✅ Hover Effect */
+.diet-plan-container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 14px 42px rgba(0, 0, 0, 0.15);
+}
+
+/* ✅ Heading */
+.diet-plan-container h2 {
+  font-size: 26px;
+  font-weight: bold;
+  color: #0033A0; /* Royal Blue */
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1.6px;
+  text-shadow: 0 0 10px rgba(0, 51, 160, 0.3);
+}
+
+/* ✅ Diet Card */
+.diet-card {
+  background: #F5F5F5; /* Light Gray */
+  padding: 18px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  margin-bottom: 24px;
+  transition: all 0.3s ease-in-out;
+}
+
+/* ✅ Diet Card Hover */
+.diet-card:hover {
+  transform: scale(1.06);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.15);
+}
+
+/* ✅ Diet Card Title */
+.diet-card h4 {
+  color: #0033A0;
+  font-size: 20px;
+  margin-bottom: 12px;
+  font-weight: bold;
+}
+
+/* ✅ Diet Card Description */
+.diet-card p {
+  font-size: 16px;
+  color: #001E6C;
+  line-height: 1.7;
+}
+
+/* ✅ Error & Loading Text */
+.error-text {
+  color: #E26972;
+  font-size: 16px;
+  font-weight: bold;
+  animation: shake 0.3s ease-in-out;
+}
+
+.loading-text {
+  font-size: 16px;
+  color: #0033A0;
+  animation: pulse 1s infinite;
+}
+
+/* ✅ Animated Section Divider */
+.divider {
+  width: 80%;
+  height: 2px;
+  background: rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  border-radius: 4px;
+}
+
+/* ✅ Subtle Glow Effect */
+.diet-plan-container::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  width: 80%;
+  height: 8px;
+  background: linear-gradient(90deg, transparent, #0033A0, transparent);
+  transform: translateX(-50%);
+  opacity: 0.8;
+  box-shadow: 0 0 12px rgba(0, 51, 160, 0.3);
+}
+
+/* ✅ Responsive Design */
+@media (max-width: 768px) {
+  .diet-plan-container {
+    max-width: 90%;
+    padding: 28px;
+  }
+
+  .diet-card {
+    padding: 16px;
+  }
+}
+
+/* ✅ Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes pulse {
+  0% { opacity: 0.7; }
+  50% { opacity: 1; }
+  100% { opacity: 0.7; }
+}
+
+
+
+/* ✅ Home Container - Premium Look */
+.home-container {
+  font-family: "Arial", sans-serif;
+  text-align: center;
+  color: #572C57;
+  background: linear-gradient(135deg, #F5F5F5);
+  padding: 60px 20px;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+/* ✅ Hero Section - Glassmorphism */
+.hero-section {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 48px 24px;
+  background: #FFFFFF; /* White Background */
+  border-radius: 16px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+}
+
+/* ✅ Hero Section Hover */
+.hero-section:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.15);
+}
+
+/* ✅ Hero Section Heading */
+.hero-section h1 {
+  font-size: 36px;
+  font-weight: bold;
+  color: #0033A0; /* Royal Blue */
+  margin-bottom: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1.6px;
+  text-shadow: 0 0 10px rgba(0, 51, 160, 0.3);
+}
+
+/* ✅ Hero Section Description */
+.hero-section p {
+  font-size: 18px;
+  color: #001E6C;
+  margin-bottom: 24px;
+}
+
+/* ✅ Primary Button */
+.btn-primary {
+  display: inline-block;
+  padding: 16px 22px;
+  background: linear-gradient(135deg, #0033A0, #001E6C);
+  color: #FFFFFF;
+  font-weight: bold;
+  font-size: 18px;
+  border: none;
+  border-radius: 12px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.4s ease-in-out;
+  box-shadow: 0 8px 22px rgba(0, 51, 160, 0.3);
+}
+
+/* ✅ Primary Button Hover */
+.btn-primary:hover {
+  transform: scale(1.1);
+  background: linear-gradient(135deg, #001E6C, #0033A0);
+  box-shadow: 0 10px 28px rgba(0, 51, 160, 0.4);
+}
+
+/* ✅ Features Section */
+.features-section {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 60px;
+}
+
+/* ✅ Feature Cards */
+.feature {
+  background: #F5F5F5;
+  padding: 24px;
+  border-radius: 16px;
+  width: 320px;
+  margin: 14px;
+  text-align: center;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+}
+
+/* ✅ Feature Card Hover */
+.feature:hover {
+  transform: scale(1.06);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.15);
+}
+
+/* ✅ Feature Title */
+.feature h2 {
+  font-size: 20px;
+  color: #0033A0;
+  margin-bottom: 12px;
+  font-weight: bold;
+}
+
+/* ✅ Feature Description */
+.feature p {
+  font-size: 16px;
+  color: #001E6C;
+}
+
+/* ✅ Testimonials Section */
+.testimonials-section {
+  max-width: 760px;
+  margin: 70px auto;
+  text-align: center;
+}
+
+.testimonials-section h2 {
+  font-size: 26px;
+  color: #0033A0;
+  margin-bottom: 22px;
+  font-weight: bold;
+}
+
+/* ✅ Testimonial Cards */
+.testimonial {
+  background: #F5F5F5;
+  padding: 20px;
+  border-radius: 16px;
+  margin-bottom: 20px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+}
+
+.testimonial p {
+  font-size: 16px;
+  color: #001E6C;
+}
+
+.testimonial h4 {
+  font-size: 18px;
+  color: #0033A0;
+  margin-top: 14px;
+  font-weight: bold;
+}
+
+/* ✅ FAQ Section */
+.faq-section {
+  max-width: 760px;
+  margin: 70px auto;
+  text-align: left;
+}
+
+.faq-section h2 {
+  font-size: 26px;
+  color: #0033A0;
+  margin-bottom: 16px;
+}
+
+/* ✅ FAQ Details */
+.faq-section details {
+  background: #F5F5F5;
+  padding: 14px;
+  border-radius: 12px;
+  margin-bottom: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.faq-section details:hover {
+  background: #E8E8E8;
+}
+
+/* ✅ FAQ Summary */
+.faq-section summary {
+  font-size: 18px;
+  font-weight: bold;
+  color: #001E6C;
+}
+
+/* ✅ Call to Action */
+.cta-section {
+  max-width: 760px;
+  margin: 70px auto;
+  text-align: center;
+  background: #F5F5F5;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+}
+
+/* ✅ Secondary Button */
+.btn-secondary {
+  display: inline-block;
+  padding: 16px 22px;
+  background: linear-gradient(135deg, #0033A0, #001E6C);
+  color: #FFFFFF;
+  font-weight: bold;
+  font-size: 18px;
+  border: none;
+  border-radius: 12px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.4s ease-in-out;
+  box-shadow: 0 8px 22px rgba(0, 51, 160, 0.3);
+}
+
+/* ✅ Secondary Button Hover */
+.btn-secondary:hover {
+  transform: scale(1.1);
+  background: linear-gradient(135deg, #001E6C, #0033A0);
+  box-shadow: 0 10px 28px rgba(0, 51, 160, 0.4);
+}
+
+/* ✅ Responsive Design */
+@media (max-width: 768px) {
+  .features-section {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .feature {
+    width: 90%;
+  }
+
+  .hero-section h1 {
+    font-size: 32px;
+  }
+
+  .goal-setting-section,
+  .testimonials-section,
+  .faq-section,
+  .cta-section {
+    width: 90%;
+  }
+}
+
+/* ✅ Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* ✅ Authentication Container - Premium Glassmorphism */
+.auth-container {
+  max-width: 440px;
+  margin: 100px auto;
+  padding: 32px;
+  background: #FFFFFF; /* White Background */
+  border-radius: 16px;
+  box-shadow: 0 12px 38px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  color: #0033A0; /* Royal Blue */
+  animation: fadeIn 0.5s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  overflow: hidden;
+}
+
+/* ✅ Floating Hover Effect */
+.auth-container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 14px 42px rgba(0, 0, 0, 0.15);
+}
+
+/* ✅ Heading */
+.auth-container h2 {
+  font-size: 28px;
+  font-weight: bold;
+  color: #0033A0; /* Royal Blue */
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1.6px;
+  text-shadow: 0 0 10px rgba(0, 51, 160, 0.3);
+}
+
+/* ✅ Input Fields */
+.auth-container input {
+  width: 100%;
+  padding: 16px;
+  border: 2px solid #0033A0;
+  border-radius: 12px;
+  font-size: 16px;
+  outline: none;
+  background: rgba(255, 255, 255, 0.9);
+  color: #001E6C;
+  transition: all 0.3s ease-in-out;
+  margin-bottom: 14px;
+}
+
+/* ✅ Input Focus Glow */
+.auth-container input:focus {
+  border: 2px solid #0033A0;
+  box-shadow: 0 0 12px rgba(0, 51, 160, 0.4);
+}
+
+/* ✅ Subtle Placeholder Animation */
+.auth-container input::placeholder {
+  color: rgba(0, 51, 160, 0.6);
+  transition: color 0.3s ease-in-out;
+}
+
+.auth-container input:focus::placeholder {
+  color: transparent;
+}
+
+/* ✅ Error Message */
+.error-message {
+  color: #E26972;
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 14px;
+  animation: shake 0.3s ease-in-out;
+}
+
+/* ✅ Submit Button */
+.auth-container button {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, #0033A0, #001E6C);
+  color: #FFFFFF;
+  font-weight: bold;
+  font-size: 18px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.4s ease-in-out;
+  margin-top: 16px;
+  box-shadow: 0 8px 24px rgba(0, 51, 160, 0.3);
+}
+
+/* ✅ Button Hover Effect */
+.auth-container button:hover {
+  transform: scale(1.1);
+  background: linear-gradient(135deg, #001E6C, #0033A0);
+  box-shadow: 0 10px 28px rgba(0, 51, 160, 0.4);
+}
+
+/* ✅ Disabled Button */
+.auth-container button:disabled {
+  background: rgba(255, 255, 255, 0.6);
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* ✅ Animated Section Divider */
+.divider {
+  width: 80%;
+  height: 2px;
+  background: rgba(0, 51, 160, 0.2);
+  margin: 20px auto;
+  border-radius: 4px;
+}
+
+/* ✅ Subtle Glow Effect */
+.auth-container::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  width: 80%;
+  height: 8px;
+  background: linear-gradient(90deg, transparent, #0033A0, transparent);
+  transform: translateX(-50%);
+  opacity: 0.8;
+  box-shadow: 0 0 12px rgba(0, 51, 160, 0.3);
+}
+
+/* ✅ Responsive Design */
+@media (max-width: 768px) {
+  .auth-container {
+    max-width: 90%;
+    padding: 28px;
+  }
+
+  .auth-container input {
+    padding: 14px;
+  }
+
+  .auth-container button {
+    font-size: 16px;
+    padding: 14px;
+  }
+}
+
+/* ✅ Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}
+
+
+/* ✅ Not Found Page - Premium Glassmorphism */
+.notfound-container {
+  max-width: 640px;
+  margin: 100px auto;
+  padding: 34px;
+  background: #FFFFFF; /* White Background */
+  border-radius: 16px;
+  box-shadow: 0 12px 38px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  color: #0033A0; /* Royal Blue */
+  animation: fadeIn 0.5s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  overflow: hidden;
+}
+
+/* ✅ Floating Hover Effect */
+.notfound-container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 14px 44px rgba(0, 0, 0, 0.15);
+}
+
+/* ✅ Heading */
+.notfound-container h1 {
+  font-size: 30px;
+  font-weight: bold;
+  color: #0033A0; /* Royal Blue */
+  margin-bottom: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1.7px;
+  text-shadow: 0 0 10px rgba(0, 51, 160, 0.3);
+}
+
+/* ✅ Message */
+.notfound-container p {
+  font-size: 18px;
+  color: #001E6C; /* Darker Blue */
+  margin-bottom: 24px;
+}
+
+/* ✅ Animated Illustration */
+.notfound-illustration img {
+  width: 85%;
+  max-width: 340px;
+  margin: 24px auto;
+  display: block;
+  animation: float 3s infinite ease-in-out;
+  filter: drop-shadow(0px 6px 14px rgba(0, 51, 160, 0.3));
+}
+
+/* ✅ Navigation Links */
+.notfound-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+/* ✅ Primary Button */
+.btn-primary {
+  display: inline-block;
+  padding: 16px 22px;
+  background: linear-gradient(135deg, #0033A0, #001E6C);
+  color: #FFFFFF;
+  font-weight: bold;
+  font-size: 18px;
+  border: none;
+  border-radius: 12px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.4s ease-in-out;
+  box-shadow: 0 8px 24px rgba(0, 51, 160, 0.3);
+}
+
+/* ✅ Primary Button Hover */
+.btn-primary:hover {
+  transform: scale(1.1);
+  background: linear-gradient(135deg, #001E6C, #0033A0);
+  box-shadow: 0 10px 30px rgba(0, 51, 160, 0.4);
+}
+
+/* ✅ Secondary Button */
+.btn-secondary {
+  display: inline-block;
+  padding: 16px 22px;
+  background: linear-gradient(135deg, #FFFFFF, #0033A0);
+  color: #0033A0;
+  font-weight: bold;
+  font-size: 18px;
+  border: none;
+  border-radius: 12px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.4s ease-in-out;
+  box-shadow: 0 8px 24px rgba(0, 51, 160, 0.3);
+}
+
+/* ✅ Secondary Button Hover */
+.btn-secondary:hover {
+  transform: scale(1.1);
+  background: linear-gradient(135deg, #0033A0, #FFFFFF);
+  color: #FFFFFF;
+  box-shadow: 0 10px 30px rgba(0, 51, 160, 0.4);
+}
+
+/* ✅ Subtle Glow Effect */
+.notfound-container::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  width: 80%;
+  height: 8px;
+  background: linear-gradient(90deg, transparent, #0033A0, transparent);
+  transform: translateX(-50%);
+  opacity: 0.8;
+  box-shadow: 0 0 12px rgba(0, 51, 160, 0.3);
+}
+
+/* ✅ Responsive Design */
+@media (max-width: 768px) {
+  .notfound-links {
+    flex-direction: column;
+  }
+
+  .notfound-illustration img {
+    width: 70%;
+  }
+}
+
+/* ✅ Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+  100% { transform: translateY(0); }
+}
+
+
+/* ✅ Profile Container - Premium Glassmorphism */
+.profile-container {
+  max-width: 460px;
+  margin: 110px auto;
+  padding: 34px;
+  background: #FFFFFF; /* White Background */
+  border-radius: 16px;
+  box-shadow: 0 12px 38px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  color: #0033A0; /* Royal Blue */
+  animation: fadeIn 0.5s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  overflow: hidden;
+}
+
+/* ✅ Floating Hover Effect */
+.profile-container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 14px 44px rgba(0, 0, 0, 0.15);
+}
+
+/* ✅ Heading */
+.profile-container h2 {
+  font-size: 28px;
+  font-weight: bold;
+  color: #0033A0; /* Royal Blue */
+  margin-bottom: 18px;
+  text-transform: uppercase;
+  letter-spacing: 1.7px;
+  text-shadow: 0 0 10px rgba(0, 51, 160, 0.3);
+}
+
+/* ✅ Profile Card */
+.profile-card {
+  background: rgba(0, 51, 160, 0.05);
+  padding: 20px;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0, 51, 160, 0.1);
+  text-align: left;
+  transition: all 0.3s ease-in-out;
+}
+
+/* ✅ Profile Card Hover */
+.profile-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 28px rgba(0, 51, 160, 0.15);
+}
+
+/* ✅ Profile Text */
+.profile-card p {
+  font-size: 16px;
+  color: #0033A0;
+  line-height: 1.7;
+  margin: 12px 0;
+}
+
+/* ✅ Strong Text */
+.profile-card strong {
+  color: #001E6C; /* Darker Blue */
+  font-weight: bold;
+}
+
+/* ✅ Error & Loading Text */
+.error-text {
+  color: #D32F2F; /* Red for Errors */
+  font-size: 16px;
+  font-weight: bold;
+  animation: shake 0.3s ease-in-out;
+}
+
+.loading-text {
+  font-size: 16px;
+  color: #0033A0;
+  animation: pulse 1s infinite;
+}
+
+/* ✅ Subtle Section Divider */
+.divider {
+  width: 80%;
+  height: 2px;
+  background: rgba(0, 51, 160, 0.1);
+  margin: 20px auto;
+  border-radius: 4px;
+}
+
+/* ✅ Logout Button */
+.btn-danger {
+  display: block;
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, #FFFFFF, #0033A0);
+  color: #FFFFFF;
+  font-weight: bold;
+  font-size: 18px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.4s ease-in-out;
+  margin-top: 16px;
+  box-shadow: 0 8px 24px rgba(0, 51, 160, 0.3);
+}
+
+/* ✅ Button Hover Effect */
+.btn-danger:hover {
+  transform: scale(1.1);
+  background: linear-gradient(135deg, #0033A0, #FFFFFF);
+  color: #0033A0;
+  box-shadow: 0 10px 30px rgba(0, 51, 160, 0.4);
+}
+
+/* ✅ Subtle Glow Effect */
+.profile-container::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  width: 80%;
+  height: 8px;
+  background: linear-gradient(90deg, transparent, #0033A0, transparent);
+  transform: translateX(-50%);
+  opacity: 0.8;
+  box-shadow: 0 0 12px rgba(0, 51, 160, 0.3);
+}
+
+/* ✅ Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes pulse {
+  0% { opacity: 0.7; }
+  50% { opacity: 1; }
+  100% { opacity: 0.7; }
+}
+
+/* ✅ Responsive Design */
+@media (max-width: 768px) {
+  .profile-container {
+    max-width: 90%;
+    padding: 28px;
+  }
+
+  .profile-card {
+    padding: 18px;
+  }
+}
+
+
+/* ✅ Authentication Container - Premium Glassmorphism */
+.auth-container {
+  max-width: 440px;
+  margin: 100px auto;
+  padding: 32px;
+  background: #FFFFFF; /* Pure White Background */
+  backdrop-filter: blur(16px);
+  border-radius: 16px;
+  box-shadow: 0 12px 38px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  color: #0033A0; /* Royal Blue */
+  animation: fadeIn 0.5s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  overflow: hidden;
+}
+
+/* ✅ Floating Hover Effect */
+.auth-container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 14px 42px rgba(0, 0, 0, 0.15);
+}
+
+/* ✅ Heading */
+.auth-container h2 {
+  font-size: 28px;
+  font-weight: bold;
+  color: #0033A0; /* Royal Blue */
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1.6px;
+  text-shadow: 0 0 10px rgba(0, 51, 160, 0.3);
+}
+
+/* ✅ Input Fields */
+.auth-container input {
+  width: 100%;
+  padding: 16px;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  font-size: 16px;
+  outline: none;
+  background: rgba(0, 51, 160, 0.05);
+  color: #0033A0;
+  transition: all 0.3s ease-in-out;
+  margin-bottom: 14px;
+}
+
+/* ✅ Input Focus Glow */
+.auth-container input:focus {
+  border: 2px solid #0033A0;
+  box-shadow: 0 0 12px rgba(0, 51, 160, 0.3);
+}
+
+/* ✅ Subtle Placeholder Animation */
+.auth-container input::placeholder {
+  color: rgba(0, 51, 160, 0.6);
+  transition: color 0.3s ease-in-out;
+}
+
+.auth-container input:focus::placeholder {
+  color: transparent;
+}
+
+/* ✅ Error Message */
+.error-message {
+  color: #D32F2F; /* Dark Red for Errors */
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 14px;
+  animation: shake 0.3s ease-in-out;
+}
+
+/* ✅ Submit Button */
+.auth-container button {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, #FFFFFF, #0033A0);
+  color: #FFFFFF;
+  font-weight: bold;
+  font-size: 18px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.4s ease-in-out;
+  margin-top: 16px;
+  box-shadow: 0 8px 24px rgba(0, 51, 160, 0.3);
+}
+
+/* ✅ Button Hover Effect */
+.auth-container button:hover {
+  transform: scale(1.1);
+  background: linear-gradient(135deg, #0033A0, #FFFFFF);
+  color: #0033A0;
+  box-shadow: 0 10px 28px rgba(0, 51, 160, 0.4);
+}
+
+/* ✅ Disabled Button */
+.auth-container button:disabled {
+  background: rgba(0, 51, 160, 0.1);
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* ✅ Login & Signup Links */
+.auth-container p {
+  font-size: 16px;
+  margin-top: 18px;
+  color: rgba(0, 51, 160, 0.7);
+}
+
+.auth-container a {
+  color: #0033A0;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease-in-out, transform 0.2s;
+}
+
+.auth-container a:hover {
+  color: #002080;
+  transform: translateY(-2px);
+  text-shadow: 0 0 6px rgba(0, 51, 160, 0.4);
+}
+
+/* ✅ Subtle Section Divider */
+.divider {
+  width: 80%;
+  height: 2px;
+  background: rgba(0, 51, 160, 0.1);
+  margin: 20px auto;
+  border-radius: 4px;
+}
+
+/* ✅ Elegant Floating Effect */
+.auth-container::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  width: 80%;
+  height: 8px;
+  background: linear-gradient(90deg, transparent, #0033A0, transparent);
+  transform: translateX(-50%);
+  opacity: 0.8;
+  box-shadow: 0 0 12px rgba(0, 51, 160, 0.6);
+}
+
+/* ✅ Floating Animation */
+.auth-container:hover {
+  transform: translateY(-4px);
+  transition: all 0.3s ease-in-out;
+}
+
+/* ✅ Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}
+
+/* ✅ Responsive Design */
+@media (max-width: 768px) {
+  .auth-container {
+    max-width: 90%;
+    padding: 28px;
+  }
+
+  .auth-container input {
+    padding: 14px;
+  }
+
+  .auth-container button {
+    font-size: 16px;
+    padding: 14px;
+  }
+}
+
+
+/* ✅ Workout Plan Container - Premium Glassmorphism */
+.plan-container {
+  max-width: 540px;
+  margin: 110px auto;
+  padding: 34px;
+  background: #FFFFFF; /* Pure White Background */
+  backdrop-filter: blur(16px);
+  border-radius: 16px;
+  box-shadow: 0 12px 38px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  color: #0033A0; /* Royal Blue for Text */
+  animation: fadeIn 0.5s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  overflow: hidden;
+}
+
+/* ✅ Floating Hover Effect */
+.plan-container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 14px 42px rgba(0, 0, 0, 0.15);
+}
+
+/* ✅ Heading */
+.plan-container h2 {
+  font-size: 28px;
+  font-weight: bold;
+  color: #0033A0; /* Royal Blue */
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1.6px;
+  text-shadow: 0 0 10px rgba(0, 51, 160, 0.3);
+}
+
+/* ✅ Workout Summary - Glassmorphism */
+.workout-summary {
+  background: rgba(0, 51, 160, 0.05);
+  padding: 20px;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0, 51, 160, 0.1);
+  text-align: left;
+  margin-bottom: 22px;
+  transition: all 0.3s ease-in-out;
+}
+
+/* ✅ Workout Summary Hover */
+.workout-summary:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 28px rgba(0, 51, 160, 0.2);
+}
+
+/* ✅ Workout Summary Title */
+.workout-summary h3 {
+  font-size: 19px;
+  color: #0033A0;
+  margin-bottom: 10px;
+}
+
+/* ✅ Workout Item */
+.workout-item {
+  background: rgba(0, 51, 160, 0.05);
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 5px 14px rgba(0, 51, 160, 0.1);
+  margin-top: 14px;
+  text-align: left;
+  transition: all 0.3s ease-in-out;
+}
+
+/* ✅ Workout Item Hover */
+.workout-item:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 22px rgba(0, 51, 160, 0.2);
+}
+
+/* ✅ Workout Item Heading */
+.workout-item h4 {
+  font-size: 20px;
+  color: #0033A0;
+  margin-bottom: 8px;
+}
+
+/* ✅ Workout Item Description */
+.workout-item p {
+  font-size: 16px;
+  color: #0033A0;
+  line-height: 1.7;
+}
+
+/* ✅ Subtle Section Divider */
+.divider {
+  width: 80%;
+  height: 2px;
+  background: rgba(0, 51, 160, 0.1);
+  margin: 20px auto;
+  border-radius: 4px;
+}
+
+/* ✅ Error & Loading Text */
+.error-text {
+  color: #D32F2F; /* Dark Red for Errors */
+  font-size: 16px;
+  font-weight: bold;
+  animation: shake 0.3s ease-in-out;
+}
+
+.loading-text {
+  font-size: 16px;
+  color: #0033A0;
+  animation: pulse 1s infinite;
+}
+
+/* ✅ Back to Dashboard Button */
+.back-btn {
+  display: block;
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, #FFFFFF, #0033A0);
+  color: #FFFFFF;
+  font-weight: bold;
+  font-size: 18px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.4s ease-in-out;
+  margin-top: 18px;
+  box-shadow: 0 8px 24px rgba(0, 51, 160, 0.3);
+}
+
+/* ✅ Button Hover Effect */
+.back-btn:hover {
+  transform: scale(1.1);
+  background: linear-gradient(135deg, #0033A0, #FFFFFF);
+  color: #0033A0;
+  box-shadow: 0 10px 28px rgba(0, 51, 160, 0.4);
+}
+
+/* ✅ Elegant Floating Effect */
+.plan-container::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  width: 80%;
+  height: 8px;
+  background: linear-gradient(90deg, transparent, #0033A0, transparent);
+  transform: translateX(-50%);
+  opacity: 0.8;
+  box-shadow: 0 0 12px rgba(0, 51, 160, 0.6);
+}
+
+/* ✅ Floating Animation */
+.plan-container:hover {
+  transform: translateY(-4px);
+  transition: all 0.3s ease-in-out;
+}
+
+/* ✅ Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes pulse {
+  0% { opacity: 0.7; }
+  50% { opacity: 1; }
+  100% { opacity: 0.7; }
+}
+
+/* ✅ Responsive Design */
+@media (max-width: 768px) {
+  .plan-container {
+    max-width: 90%;
+    padding: 28px;
+  }
+
+  .workout-summary {
+    padding: 18px;
+  }
+
+  .workout-item {
+    padding: 14px;
+  }
+}
