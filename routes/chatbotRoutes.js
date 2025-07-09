@@ -8,7 +8,7 @@ const router = express.Router();
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
 if (!GEMINI_API_KEY) {
-  console.error("❌ Gemini API key is missing in .env file.");
+  console.error(" Gemini API key is missing in .env file.");
   process.exit(1);
 }
 
@@ -19,7 +19,7 @@ const chatCache = new NodeCache({ stdTTL: 600, checkperiod: 300 }); // Cache res
 const chatLimiter = rateLimit({
   windowMs: 24 * 60 * 60 * 1000, // ⏳ 24 hours
   max: 20, // 🚀 20 messages per user per day
-  message: { error: "⚠️ You've reached today's free limit. Try again tomorrow!" },
+  message: { error: " You've reached today's free limit. Try again tomorrow!" },
   keyGenerator: (req) => req.ip, // ✅ Limit by user IP
 });
 
@@ -30,7 +30,7 @@ const validateChatInput = (req, res, next) => {
     return res.status(400).json({ error: "A valid message is required." });
   }
   if (message.length > 200) {
-    return res.status(400).json({ error: "⚠️ Message too long! Limit to 200 characters." });
+    return res.status(400).json({ error: " Message too long! Limit to 200 characters." });
   }
   next();
 };
@@ -39,12 +39,12 @@ const validateChatInput = (req, res, next) => {
 router.post("/chat", validateChatInput, chatLimiter, async (req, res) => {
   try {
     const { message } = req.body;
-    console.log(`📩 User: ${message}`);
+    console.log(` User: ${message}`);
 
     // ✅ Check Cache First (Avoid Unnecessary API Calls)
     const cachedResponse = chatCache.get(message);
     if (cachedResponse) {
-      console.log("⚡ Cache hit! Returning cached response.");
+      console.log(" Cache hit! Returning cached response.");
       return res.json({ reply: cachedResponse });
     }
 
@@ -66,21 +66,21 @@ router.post("/chat", validateChatInput, chatLimiter, async (req, res) => {
       }
     );
 
-    console.log("✅ Gemini API Call Successful!");
+    console.log(" Gemini API Call Successful!");
 
     const botReply = response.data.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || 
       "I'm not sure how to respond to that. Try asking about diet, fitness, or workouts.";
-    console.log(`🤖 Bot: ${botReply}`);
+    console.log(` Bot: ${botReply}`);
 
     // ✅ Cache Response for 10 Minutes
     chatCache.set(message, botReply);
 
     res.json({ reply: botReply });
   } catch (error) {
-    console.error("❌ Chatbot API Error:", error.response?.data || error.message);
+    console.error(" Chatbot API Error:", error.response?.data || error.message);
 
     if (error.response?.status === 429) {
-      return res.status(429).json({ error: "🚫 Too many requests. Try again later." });
+      return res.status(429).json({ error: " Too many requests. Try again later." });
     }
 
     res.status(500).json({ error: "Chatbot service is unavailable. Please try again later." });

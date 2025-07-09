@@ -6,6 +6,11 @@ const callPythonModel = (userData) => {
 
     const pythonProcess = spawn(process.platform === "win32" ? "python" : "python3", ["ai_model/model.py"]);
 
+    // Ensure userData contains 'dietPreference' and other necessary fields
+    if (!userData.dietPreference) {
+      return reject(new Error("❌ Missing 'dietPreference' in user data. Please specify 'veg' or 'non-veg'."));
+    }
+
     pythonProcess.stdin.write(JSON.stringify(userData));
     pythonProcess.stdin.end();
 
@@ -50,7 +55,7 @@ const callPythonModel = (userData) => {
       console.error("⏳ AI model execution timed out.");
       reject(new Error("AI model execution timed out."));
       pythonProcess.kill();
-    }, 40000);
+    }, 40000); // Adjust timeout duration if needed
   });
 };
 

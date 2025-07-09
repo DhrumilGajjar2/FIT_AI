@@ -71,14 +71,26 @@ const loginUser = async (req, res) => {
 
 const getUserProfile = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select("-password");
+    const user = await User.findById(req.user.id)
+    .select("-password")
+    .populate("recommendationHistory");
+
     if (!user) {
       return res.status(404).json({ error: "User not found." });
     }
-    res.json(user);
-  } catch (error) {
+
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      age: user.age,
+      weight: user.weight,
+      height: user.height,
+      recommendationHistory: user.recommendationHistory,
+    });
+  } catch(error) {
     console.error("Profile Error:", error.message);
-    res.status(500).json({ error: "Server error. Please try again later." });
+    res.status(500).json({ error: "Server error. Please try again later."})
   }
 };
 

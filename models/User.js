@@ -10,6 +10,17 @@ const userSchema = new mongoose.Schema({
   role: { type: String, default: "user" },
   dietPlans: [{ type: mongoose.Schema.Types.ObjectId, ref: "DietPlan" }], // ✅ Reference diet plans
   workoutPlans: [{ type: mongoose.Schema.Types.ObjectId, ref: "WorkoutPlan" }], // ✅ Reference workout plans
+  
+
+  recommendationHistory: [
+    {
+      dietPlans: { type: mongoose.Schema.Types.ObjectId, ref: "DietPlans"},
+      workoutPlans: { type: mongoose.Schema.Types.ObjectId, ref: "WorkoutPlans" },
+      mealPlan: { type: mongoose.Schema.Types.ObjectId, ref: "MealPlan" },
+      date: { type: Date, default: Date.now},
+    },
+  ],
+
 }, { timestamps: true });
 
 module.exports = mongoose.model("User", userSchema);

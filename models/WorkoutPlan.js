@@ -1,4 +1,3 @@
-// models/WorkoutPlan.js - Workout Plan Schema
 const mongoose = require("mongoose");
 
 const workoutPlanSchema = new mongoose.Schema(
@@ -7,7 +6,7 @@ const workoutPlanSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
-      index: true, // Indexing for faster queries
+      index: true,
     },
     exercises: [
       {
@@ -19,45 +18,60 @@ const workoutPlanSchema = new mongoose.Schema(
         },
         sets: {
           type: Number,
-          required: true,
-          default: 3,
-          min: [1, "Sets must be at least 1"],
-          max: [10, "Sets should not exceed 10"], // Prevent unrealistic values
+          default: 0,
+          min: 0,
+          max: 10,
         },
         reps: {
           type: Number,
-          required: true,
-          default: 10,
-          min: [1, "Reps must be at least 1"],
-          max: [50, "Reps should not exceed 50"], // Prevent unrealistic values
+          default: 0,
+          min: 0,
+          max: 50,
         },
         duration: {
-          type: Number, // Duration in minutes
+          type: Number, // In minutes
           required: [true, "Exercise duration is required"],
           min: [1, "Duration must be at least 1 minute"],
-          max: [180, "Duration should not exceed 180 minutes"], // Prevent unrealistic values
+          max: [180, "Duration should not exceed 180 minutes"],
         },
+        type: {
+          type: String,
+          enum: ["strength", "cardio", "stretch", "other"],
+          default: "strength"
+        },
+        caloriesBurned: {
+          type: Number,
+          min: 0,
+          default: 0,
+        }
       },
     ],
     totalDuration: {
       type: Number,
       required: true,
+      default: 0,
       min: [1, "Total workout duration must be at least 1 minute"],
-      default: 0, // Auto-calculated before saving
+    },
+    goal: {
+      type: String,
+      enum: ["fat-loss", "muscle-gain", "endurance", "flexibility"],
+    },
+    intensityLevel: {
+      type: String,
+      enum: ["low", "medium", "high"],
+      default: "medium"
     },
   },
   { timestamps: true }
 );
 
-// ✅ Auto-calculate totalDuration before saving
 workoutPlanSchema.pre("save", function (next) {
   if (this.isNew || this.isModified("exercises")) {
-    this.totalDuration = this.exercises.reduce((sum, exercise) => sum + (exercise.duration || 0), 0);
+    this.totalDuration = this.exercises.reduce((sum, ex) => sum + (ex.duration || 0), 0);
   }
   next();
 });
 
-// ✅ Prevent multiple workout plans per user per day
 workoutPlanSchema.index({ user: 1, createdAt: 1 }, { unique: true });
 
 const WorkoutPlan = mongoose.model("WorkoutPlan", workoutPlanSchema);

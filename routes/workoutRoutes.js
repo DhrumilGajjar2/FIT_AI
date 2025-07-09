@@ -19,13 +19,13 @@ const validateWorkoutPlan = (req, res, next) => {
   next();
 };
 
-// ✅ Manual workout plan creation (Authenticated)
+//  Manual workout plan creation (Authenticated)
 router.post("/create", protect, validateWorkoutPlan, createWorkoutPlan);
 
-// ✅ AI-generated workout plan storage
+//  AI-generated workout plan storage
 router.post("/store-ai", protect, storeAiWorkoutPlan);
 
-// ✅ Fetch user's workout plans
+//Fetch user's workout plans
 router.get("/user", protect, getUserWorkoutPlans);
 
 module.exports = router;

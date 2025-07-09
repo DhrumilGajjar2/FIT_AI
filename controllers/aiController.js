@@ -3,18 +3,33 @@ const axios = require("axios");
 
 const getAIRecommendations = async (req, res) => {
   try {
-    const { age, weight, height, goal, activityLevel, healthCondition } = req.body;
-    const userId = req.user?._id; // Get user ID from authentication
+    const { age, weight, height, goal, activityLevel, healthCondition, dietPreference } = req.body;
+    const userId = req.user?._id;
 
     if (!userId) {
       return res.status(401).json({ error: "Unauthorized: Please log in." });
     }
 
-    console.log("📡 Sending data to AI Model:", JSON.stringify(req.body, null, 2));
+    // ✅ Validate required fields including dietPreference
+    if (!age || !weight || !height || !goal || !activityLevel || !dietPreference) {
+      return res.status(400).json({ error: "Missing required fields including dietPreference (Veg/Non-Veg)." });
+    }
+
+    const inputData = {
+      age,
+      weight,
+      height,
+      goal,
+      activityLevel,
+      healthCondition,
+      dietPreference, // ✅ Include in request to Python model
+    };
+
+    console.log("📡 Sending data to AI Model:", JSON.stringify(inputData, null, 2));
 
     let recommendations;
     try {
-      recommendations = await callPythonModel(req.body);
+      recommendations = await callPythonModel(inputData);
       console.log("✅ AI Model Response:", recommendations);
     } catch (modelError) {
       console.error("❌ AI Model Execution Error:", modelError.message || modelError);
@@ -27,14 +42,14 @@ const getAIRecommendations = async (req, res) => {
     }
 
     const { diet_plan, workout_plan } = recommendations.recommendation;
-    const BASE_URL = process.env.BASE_URL || "http://localhost:5000"; // Default to localhost if not set
+    const BASE_URL = process.env.BASE_URL || "http://localhost:5000";
 
-    // ✅ Store AI-generated diet plan
+    // ✅ Store Diet Plan
     if (diet_plan) {
       try {
         await axios.post(
           `${BASE_URL}/api/diet/store-ai`,
-          { diet_plan },
+          { diet_plan, dietPreference }, // Optional: store dietPreference if needed
           { headers: { Authorization: req.headers.authorization } }
         );
         console.log("✅ AI Diet Plan stored successfully.");
@@ -43,7 +58,7 @@ const getAIRecommendations = async (req, res) => {
       }
     }
 
-    // ✅ Store AI-generated workout plan
+    // ✅ Store Workout Plan
     if (workout_plan) {
       try {
         await axios.post(

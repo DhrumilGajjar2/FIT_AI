@@ -1,4 +1,5 @@
 const DietPlan = require("../models/DietPlan");
+const User = require("../models/User");
 
 const createDietPlan = async (req, res) => {
   try {
@@ -17,9 +18,14 @@ const createDietPlan = async (req, res) => {
       return res.status(400).json({ error: "Total calories must be a positive number." });
     }
 
-    // ✅ Prevent duplicate diet plans for the same user on the same day
-    const startOfDay = new Date();
-    startOfDay.setHours(0, 0, 0, 0);
+    // Helper function to get the start of the current day
+    const getStartOfToday = () => {
+      const startOfDay = new Date();
+      startOfDay.setHours(0, 0, 0, 0);
+      return startOfDay;
+    };
+
+    const startOfDay = getStartOfToday();
 
     const existingPlan = await DietPlan.findOne({
       user: userId,
@@ -27,10 +33,9 @@ const createDietPlan = async (req, res) => {
     });
 
     if (existingPlan) {
-      return res.status(400).json({ error: "A diet plan for today already exists." });
+      return res.status(400).json({ error: "A diet plan for today already exists.", existingPlan });
     }
 
-    // ✅ Modify diet based on health condition if applicable
     const modifiedMeals = healthCondition
       ? modifyDietForHealthCondition(meals, healthCondition)
       : meals;
@@ -42,6 +47,24 @@ const createDietPlan = async (req, res) => {
     });
 
     await newDietPlan.save();
+
+    const existingRecommendation = await User.findOne({
+      _id: userId,
+      "recommendationHistory.date": { $gte: startOfDay },
+    });
+
+    if (!existingRecommendation) {
+      await User.findByIdAndUpdate(userId, {
+        $push: {
+          recommendationHistory: {
+            dietPlan: newDietPlan._id,
+            date: new Date(),
+          },
+        },
+      });
+    }
+
+    console.log(`[${new Date().toISOString()}] ✅ Diet Plan created for user: ${userId}`);
     res.status(201).json({ message: "Diet plan created successfully.", dietPlan: newDietPlan });
   } catch (error) {
     console.error("❌ Create Diet Plan Error:", error.message);
@@ -62,17 +85,22 @@ const storeAiDietPlan = async (req, res) => {
       return res.status(400).json({ error: "Invalid AI diet plan received." });
     }
 
-    console.log("📥 Storing AI Diet Plan for user:", userId);
+    console.log(`[${new Date().toISOString()}] 📥 Storing AI Diet Plan for user: ${userId}`);
 
-    // ✅ Convert AI response format to array
     const formattedMeals = Object.entries(meal_plan).map(([mealType, food]) => ({
       mealType,
-      foodItems: Array.isArray(food) ? food : [food], // Ensure it's an array
-      calories: Math.round(calories / 4), // Approximate calories per meal
+      foodItems: Array.isArray(food) ? food : [food],
+      calories: Math.round(calories / 4), // Approximate per meal
     }));
 
-    const startOfDay = new Date();
-    startOfDay.setHours(0, 0, 0, 0);
+    // Helper function to get the start of the current day
+    const getStartOfToday = () => {
+      const startOfDay = new Date();
+      startOfDay.setHours(0, 0, 0, 0);
+      return startOfDay;
+    };
+
+    const startOfDay = getStartOfToday();
 
     const existingPlan = await DietPlan.findOne({
       user: userId,
@@ -80,7 +108,7 @@ const storeAiDietPlan = async (req, res) => {
     });
 
     if (existingPlan) {
-      return res.status(400).json({ error: "A diet plan for today already exists." });
+      return res.status(400).json({ error: "A diet plan for today already exists.", existingPlan });
     }
 
     const newDietPlan = new DietPlan({
@@ -90,7 +118,24 @@ const storeAiDietPlan = async (req, res) => {
     });
 
     await newDietPlan.save();
-    console.log("✅ AI Diet Plan stored successfully.");
+
+    const existingRecommendation = await User.findOne({
+      _id: userId,
+      "recommendationHistory.date": { $gte: startOfDay },
+    });
+
+    if (!existingRecommendation) {
+      await User.findByIdAndUpdate(userId, {
+        $push: {
+          recommendationHistory: {
+            dietPlan: newDietPlan._id,
+            date: new Date(),
+          },
+        },
+      });
+    }
+
+    console.log(`[${new Date().toISOString()}] ✅ AI Diet Plan stored successfully.`);
     res.status(201).json({ message: "AI Diet Plan stored successfully.", dietPlan: newDietPlan });
   } catch (error) {
     console.error("❌ AI Diet Plan Store Error:", error.message);
@@ -105,8 +150,23 @@ const getUserDietPlans = async (req, res) => {
       return res.status(401).json({ error: "Unauthorized: Please log in." });
     }
 
-    console.log("📥 Fetching diet plans for user:", userId);
-    const dietPlans = await DietPlan.find({ user: userId });
+    console.log(`[${new Date().toISOString()}] 📥 Fetching diet plans for user: ${userId}`);
+
+    // Helper function to get the start of the current day
+    const getStartOfToday = () => {
+      const startOfDay = new Date();
+      startOfDay.setHours(0, 0, 0, 0);
+      return startOfDay;
+    };
+
+    const startOfDay = getStartOfToday();
+
+    const dietPlans = await DietPlan.find({
+      user: userId,
+      createdAt: { $gte: startOfDay },
+    })
+      .sort({ createdAt: -1 })
+      .lean();
 
     if (!dietPlans.length) {
       return res.status(404).json({ error: "No diet plans found for this user." });
@@ -119,20 +179,37 @@ const getUserDietPlans = async (req, res) => {
   }
 };
 
-// ✅ Function to modify meals based on health condition
+// ✅ Helper function to modify diet based on health conditions
 const modifyDietForHealthCondition = (meals, condition) => {
   const dietAdjustments = {
-    diabetes: (foods) => foods.map((food) => food.replace(/sugar/g, "stevia").replace(/white rice/g, "brown rice")),
-    hypertension: (foods) => foods.map((food) => food.replace(/salt/g, "low-sodium salt")),
-    "heart-disease": (foods) => foods.map((food) => food.replace(/red meat/g, "fish").replace(/fried/g, "grilled")),
-    obesity: (foods) => foods.map((food) => food.replace(/fast food/g, "salads")),
-    pcos: (foods) => foods.map((food) => food.replace(/processed carbs/g, "whole grains")),
+    diabetes: (foods) =>
+      foods.map((food) =>
+        food.replace(/sugar/gi, "stevia").replace(/white rice/gi, "brown rice")
+      ),
+    hypertension: (foods) =>
+      foods.map((food) => food.replace(/salt/gi, "low-sodium salt")),
+    "heart-disease": (foods) =>
+      foods.map((food) =>
+        food.replace(/red meat/gi, "fish").replace(/fried/gi, "grilled")
+      ),
+    obesity: (foods) =>
+      foods.map((food) => food.replace(/fast food/gi, "salads")),
+    pcos: (foods) =>
+      foods.map((food) =>
+        food.replace(/processed carbs/gi, "whole grains")
+      ),
   };
 
   return meals.map((meal) => ({
     ...meal,
-    foodItems: dietAdjustments[condition] ? dietAdjustments[condition](meal.foodItems) : meal.foodItems,
+    foodItems: dietAdjustments[condition]
+      ? dietAdjustments[condition](meal.foodItems)
+      : meal.foodItems,
   }));
 };
 
-module.exports = { createDietPlan, storeAiDietPlan, getUserDietPlans };
+module.exports = {
+  createDietPlan,
+  storeAiDietPlan,
+  getUserDietPlans,
+};
