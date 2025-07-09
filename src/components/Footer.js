@@ -1,8 +1,10 @@
 import React from "react";
-import facebookIcon from "../assets/icons/facebook.svg";
-import twitterIcon from "../assets/icons/twitter.svg";
-import instagramIcon from "../assets/icons/instagram.svg";
-import linkedinIcon from "../assets/icons/linkedin.svg";
+//import facebookIcon from "../../assets/icons/facebook.svg";
+//import twitterIcon from "../../assets/icons/twitter.svg";
+//import instagramIcon from "../../assets/icons/instagram.svg";
+//import linkedinIcon from "../../assets/icons/linkedin.svg";
+
+
 
 function Footer() {
   return (
@@ -41,16 +43,16 @@ function Footer() {
           <h3>Follow Us</h3>
           <div className="social-icons">
             <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
-              <img src={facebookIcon} alt="Facebook" />
+             { /* <img src={facebookIcon} alt="Facebook" /> */}
             </a>
             <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
-              <img src={twitterIcon} alt="Twitter" />
+            { /*  <img src={twitterIcon} alt="Twitter" /> */}
             </a>
             <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
-              <img src={instagramIcon} alt="Instagram" />
+            { /*  <img src={instagramIcon} alt="Instagram" /> */}
             </a>
             <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
-              <img src={linkedinIcon} alt="LinkedIn" />
+            { /*  <img src={linkedinIcon} alt="LinkedIn" /> */}
             </a>
           </div>
         </div>

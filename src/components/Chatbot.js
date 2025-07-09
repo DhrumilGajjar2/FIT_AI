@@ -30,7 +30,7 @@ function Chatbot() {
       const botReply = await getChatbotResponse(input);
       setMessages((prev) => [...prev, { sender: "bot", text: botReply || "I'm not sure, try again!" }]);
     } catch (error) {
-      setMessages((prev) => [...prev, { sender: "bot", text: error.message || "❌ Error! Try again later." }]);
+      setMessages((prev) => [...prev, { sender: "bot", text: error.message || "Error! Try again later." }]);
     } finally {
       setLoading(false);
     }

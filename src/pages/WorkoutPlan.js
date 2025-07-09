@@ -19,9 +19,7 @@ function WorkoutPlan() {
     async function fetchPlan() {
       try {
         const response = await getUserWorkoutPlans(token);
-        console.log("📌 Workout Plan API Response:", response); // ✅ Debug API Response
-
-        // ✅ Handle API response format correctly
+        // Handle API response format correctly
         if (!response || (Array.isArray(response) && response.length === 0)) {
           throw new Error("No workout plans found.");
         }
@@ -38,7 +36,7 @@ function WorkoutPlan() {
     fetchPlan();
   }, [token, navigate]);
 
-  // ✅ Calculate Total Duration
+  // Calculate Total Duration using useMemo
   const workoutSummary = useMemo(() => {
     if (workoutPlans.length === 0) return { totalDuration: 0 };
 
@@ -80,7 +78,7 @@ function WorkoutPlan() {
                   </p>
                 ))
               ) : (
-                <p>No exercises listed. 🏃</p>
+                <p>Exercise are on dashboard.</p>
               )}
             </div>
           ))}

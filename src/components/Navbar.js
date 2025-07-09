@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { getUserDietPlans } from "../utils/api";
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [hasDietPlan, setHasDietPlan] = useState(false);
   const location = useLocation(); // Get current path for active link
-  const isLoggedIn = localStorage.getItem("token"); // Check if user is logged in
   const navRef = useRef(null); // Reference to detect clicks outside menu
+  const token = localStorage.getItem("token"); // ✅ Get token once
 
   // ✅ Toggle Mobile Menu
   const toggleMenu = () => {
@@ -29,6 +31,22 @@ function Navbar() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  // ✅ Fetch Diet Plans
+  useEffect(() => {
+    const fetchDietPlan = async () => {
+      if (token) {
+        try {
+          const dietPlans = await getUserDietPlans(token); // ✅ Use correct token
+          setHasDietPlan(dietPlans.length > 0); // ✅ Update state correctly
+        } catch (error) {
+          console.error("❌ Error fetching diet plan", error);
+        }
+      }
+    };
+
+    fetchDietPlan();
+  }, [token]);
 
   return (
     <nav className="navbar" ref={navRef}>
@@ -58,12 +76,17 @@ function Navbar() {
               Dashboard
             </Link>
           </li>
-          <li>
-            <Link to="/diet-plan" className={location.pathname === "/diet-plan" ? "active" : ""} onClick={closeMenu}>
-              Diet Plan
-            </Link>
-          </li>
-          <li>
+
+          {/* ✅ Show Diet Plan only if the user has one */}
+          {hasDietPlan && (
+            <li>
+              <Link to="/diet-plan" className={location.pathname === "/diet-plan" ? "active" : ""} onClick={closeMenu}>
+                Diet Plan
+              </Link>
+            </li>
+          )}
+
+            <li>
             <Link to="/workout-plan" className={location.pathname === "/workout-plan" ? "active" : ""} onClick={closeMenu}>
               Workout Plan
             </Link>
@@ -75,7 +98,7 @@ function Navbar() {
           </li>
 
           {/* ✅ Show Profile & Logout if Logged In */}
-          {isLoggedIn ? (
+          {token ? (
             <>
               <li>
                 <Link to="/profile" className={location.pathname === "/profile" ? "active" : ""} onClick={closeMenu}>

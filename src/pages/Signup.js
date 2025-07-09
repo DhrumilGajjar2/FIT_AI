@@ -1,10 +1,11 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { registerUser } from "../utils/api";
 
 function Signup() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const passwordRef = useRef(null);
+  const [password, setPassword] = useState("");
   const [age, setAge] = useState("");
   const [weight, setWeight] = useState("");
   const [height, setHeight] = useState("");
@@ -16,34 +17,36 @@ function Signup() {
     e.preventDefault();
     setError("");
 
+    // Trim and validate inputs
     const trimmedName = name.trim();
     const trimmedEmail = email.trim();
-    const password = passwordRef.current.value.trim();
+    const trimmedPassword = password.trim();
 
-    if (!trimmedName || !trimmedEmail || !password || !age || !weight || !height) {
+    if (!trimmedName || !trimmedEmail || !trimmedPassword || !age || !weight || !height) {
       setError("All fields are required.");
+      return;
+    }
+
+    if (!/\S+@\S+\.\S+/.test(trimmedEmail)) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+
+    if (age <= 0 || weight <= 0 || height <= 0) {
+      setError("Age, weight, and height must be positive numbers.");
       return;
     }
 
     setLoading(true);
 
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/users/register`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: trimmedName, email: trimmedEmail, password, age, weight, height }),
-      });
+      const userData = await registerUser({ name: trimmedName, email: trimmedEmail, password: trimmedPassword, age, weight, height });
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || "Signup failed. Please try again.");
-      }
-
+      // On successful registration, redirect to login
       alert("✅ Signup successful! You can now log in.");
       navigate("/login");
     } catch (error) {
-      setError(error.message);
+      setError(error.message || "Signup failed. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -54,15 +57,55 @@ function Signup() {
       <h2>Sign Up</h2>
       {error && <p className="error-message">{error}</p>}
       <form onSubmit={handleSignup}>
-        <input type="text" placeholder="Full Name" value={name} onChange={(e) => setName(e.target.value)} required />
-        <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-        <input type="password" placeholder="Password" ref={passwordRef} required />
-        <input type="number" placeholder="Age" value={age} onChange={(e) => setAge(e.target.value)} required />
-        <input type="number" placeholder="Weight (kg)" value={weight} onChange={(e) => setWeight(e.target.value)} required />
-        <input type="number" placeholder="Height (cm)" value={height} onChange={(e) => setHeight(e.target.value)} required />
-        <button type="submit" disabled={loading}>{loading ? "Signing up..." : "Sign Up"}</button>
+        <input
+          type="text"
+          placeholder="Full Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+        />
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+        <input
+          type="number"
+          placeholder="Age"
+          value={age}
+          onChange={(e) => setAge(e.target.value)}
+          required
+        />
+        <input
+          type="number"
+          placeholder="Weight (kg)"
+          value={weight}
+          onChange={(e) => setWeight(e.target.value)}
+          required
+        />
+        <input
+          type="number"
+          placeholder="Height (cm)"
+          value={height}
+          onChange={(e) => setHeight(e.target.value)}
+          required
+        />
+        <button type="submit" disabled={loading}>
+          {loading ? "Signing up..." : "Sign Up"}
+        </button>
       </form>
-      <p>Already have an account? <a href="/login">Log in here</a>.</p>
+      <p>
+        Already have an account? <a href="/login">Log in here</a>.
+      </p>
     </div>
   );
 }

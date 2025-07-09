@@ -1,105 +1,99 @@
+
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:5000/api"; // Ensure backend runs on port 5000
+// ✅ Axios Instance
+const api = axios.create({
+  baseURL: "http://localhost:5000/api",
+  timeout: 10000, // Optional: 10 sec timeout
+});
 
-// ✅ Set Authorization Token Globally (Reduces Repetition)
+// ✅ Set Authorization Token Globally
 export const setAuthToken = (token) => {
   if (token) {
-    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   } else {
-    delete axios.defaults.headers.common["Authorization"];
+    delete api.defaults.headers.common["Authorization"];
   }
 };
+
+// ✅ Central Error Extractor
+const extractError = (error, fallbackMsg) =>
+  error.response?.data?.message || error.response?.data || error.message || fallbackMsg;
 
 // ✅ User Authentication
 export const registerUser = async (userData) => {
   try {
-    const response = await axios.post(`${API_BASE_URL}/users/register`, userData);
+    const response = await api.post("/users/register", userData);
     return response.data;
   } catch (error) {
-    console.error("❌ Registration Error:", error.response?.data || error.message);
-    throw new Error(error.response?.data?.message || "Failed to register. Please try again.");
+    console.error("❌ Registration Error:", extractError(error));
+    throw new Error(extractError(error, "Failed to register. Please try again."));
   }
 };
 
 export const loginUser = async (userData) => {
   try {
-    const response = await axios.post(`${API_BASE_URL}/users/login`, userData);
+    const response = await api.post("/users/login", userData);
     return response.data;
   } catch (error) {
-    console.error("❌ Login Error:", error.response?.data || error.message);
-    throw new Error(error.response?.data?.message || "Incorrect email or password.");
+    console.error("❌ Login Error:", extractError(error));
+    throw new Error(extractError(error, "Incorrect email or password."));
   }
 };
 
 // ✅ Fetch User-Specific Diet Plans
 export const getUserDietPlans = async (token) => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/diet/user`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    setAuthToken(token);
+    const response = await api.get("/diet/user");
     return response.data;
   } catch (error) {
-    console.error("❌ Diet Plan Error:", error.response?.data || error.message);
-    throw new Error(error.response?.data?.message || "Could not fetch diet plan. Try again.");
+    console.error("❌ Diet Plan Error:", extractError(error));
+    throw new Error(extractError(error, "Could not fetch diet plan. Try again."));
   }
 };
 
 // ✅ Fetch User-Specific Workout Plans
 export const getUserWorkoutPlans = async (token) => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/workout/user`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    setAuthToken(token);
+    const response = await api.get("/workout/user");
     return response.data;
   } catch (error) {
-    console.error("❌ Workout Plan Error:", error.response?.data || error.message);
-    throw new Error(error.response?.data?.message || "Could not fetch workout plan. Try again.");
+    console.error("❌ Workout Plan Error:", extractError(error));
+    throw new Error(extractError(error, "Could not fetch workout plan. Try again."));
   }
 };
 
-// ✅ Fetch AI-Based Recommendations (Fixed JSON Keys)
+// ✅ Fetch AI-Based Recommendations
 export const getAIRecommendations = async (userData, token) => {
   try {
-    console.log("Sending AI request with token:", token);
-
-    // ✅ Ensure correct request format
+    setAuthToken(token);
     const requestData = {
       age: userData.age,
       weight: userData.weight,
       height: userData.height,
-      activityLevel: userData.activityLevel, // ✅ Fixed key name
-      goal: userData.goal, // ✅ Fixed key name
-      healthCondition: userData.healthCondition // ✅ Fixed key name
+      activityLevel: userData.activityLevel,
+      goal: userData.goal,
+      healthCondition: userData.healthCondition,
+      dietPreference: userData.dietPreference,
     };
 
-    // ✅ Ensure auth token is set before making request
-    setAuthToken(token);
+    const response = await api.post("/ai/ai-recommend", requestData);
+    const data = response.data;
 
-    const response = await axios.post(`${API_BASE_URL}/ai/ai-recommend`, requestData);
-
-    // ✅ Log the response
-    console.log("RAW AI RESPONSE:", response.data);
-
-    // ✅ Handle JSON parsing correctly
-    if (typeof response.data === "string") {
-      return JSON.parse(response.data);
-    }
-
-    return response.data;
+    return typeof data === "string" ? JSON.parse(data) : data;
   } catch (error) {
-    console.error("❌ AI Recommendation Error:", error.response?.data || error.message);
-    throw new Error(error.response?.data?.message || "AI recommendation service unavailable.");
+    console.error("❌ AI Recommendation Error:", extractError(error));
+    throw new Error(extractError(error, "AI recommendation service unavailable."));
   }
 };
 
-
-// ✅ Fetch Chatbot Response (OpenAI API with Free-Tier Compliance)
+// ✅ Chatbot API
 export const getChatbotResponse = async (message) => {
   try {
-    const response = await axios.post(`${API_BASE_URL}/chatbot/chat`, { message });
+    const response = await api.post("/chatbot/chat", { message });
 
-    // ✅ Handle rate limiting and API issues properly
     if (response.data.error) {
       if (response.data.error.includes("Free-tier limit reached")) {
         throw new Error("🚫 Free-tier limit reached. Try again later.");
@@ -110,12 +104,9 @@ export const getChatbotResponse = async (message) => {
 
     return response.data.reply;
   } catch (error) {
-    console.error("❌ Chatbot Error:", error.response?.data || error.message);
-
-    if (error.response?.status === 429) {
-      throw new Error("🚫 Too many requests. Please wait a moment and try again.");
-    }
-
-    throw new Error(error.response?.data?.message || "Chatbot service is currently unavailable.");
+    console.error("❌ Chatbot Error:", extractError(error));
+    throw new Error(
+      extractError(error, "Chatbot service is currently unavailable.")
+    );
   }
 };

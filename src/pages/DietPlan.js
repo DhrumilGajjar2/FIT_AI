@@ -18,7 +18,8 @@ function DietPlan() {
           throw new Error("No diet plans found.");
         }
 
-        setDietPlans(Array.isArray(response) ? response : response.dietPlans || []);
+        setDietPlans(Array.isArray(response) ? response : (response.dietPlans ? response.dietPlans : []));
+
       } catch (err) {
         console.error("❌ Error fetching diet plan:", err);
         setError(err.message || "Could not load diet plans. Try again later.");

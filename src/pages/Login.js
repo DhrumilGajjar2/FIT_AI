@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { loginUser } from "../utils/api";;
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -13,7 +14,7 @@ function Login() {
     setError("");
 
     const trimmedEmail = email.trim();
-    const password = passwordRef.current.value;
+    const password = passwordRef.current.value.trim();
 
     if (!trimmedEmail || !password) {
       setError("Email and password are required.");
@@ -23,27 +24,18 @@ function Login() {
     setLoading(true);
 
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/users/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: trimmedEmail, password }),
-      });
+      const userData = await loginUser({ email: trimmedEmail, password });
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || "Login failed. Please check your credentials.");
-      }
-
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("username", data.name);
-      localStorage.setItem("age", data.age);
-      localStorage.setItem("weight", data.weight);
-      localStorage.setItem("height", data.height);
+      // Save to localStorage
+      localStorage.setItem("token", userData.token);
+      localStorage.setItem("username", userData.name);
+      localStorage.setItem("age", userData.age);
+      localStorage.setItem("weight", userData.weight);
+      localStorage.setItem("height", userData.height);
 
       navigate("/dashboard");
     } catch (err) {
-      setError(err.message);
+      setError(err.message || "Login failed. Try again.");
     } finally {
       setLoading(false);
     }
@@ -54,9 +46,22 @@ function Login() {
       <h2>Login</h2>
       {error && <p className="error-message">{error}</p>}
       <form onSubmit={handleLogin}>
-        <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-        <input type="password" placeholder="Password" ref={passwordRef} required />
-        <button type="submit" disabled={loading}>{loading ? "Logging in..." : "Login"}</button>
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          ref={passwordRef}
+          required
+        />
+        <button type="submit" disabled={loading}>
+          {loading ? "Logging in..." : "Login"}
+        </button>
       </form>
     </div>
   );

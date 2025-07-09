@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { setAuthToken } from "../utils/api"; // ✅ Import setAuthToken
+import { setAuthToken } from "../utils/api"; // Import setAuthToken
 
 function UserDataForm({ setRecommendation, setLoading, setProgress }) {
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   const [age, setAge] = useState("");
   const [weight, setWeight] = useState("");
   const [height, setHeight] = useState("");
   const [goal, setGoal] = useState("");
   const [activityLevel, setActivityLevel] = useState("");
   const [healthCondition, setHealthCondition] = useState("");
+  const [dietPreference, setDietPreference] = useState("");
   const [error, setError] = useState("");
   const [formLoading, setFormLoading] = useState(false);
 
@@ -23,9 +24,9 @@ function UserDataForm({ setRecommendation, setLoading, setProgress }) {
       setGoal(savedData.goal || "");
       setActivityLevel(savedData.activityLevel || "");
       setHealthCondition(savedData.healthCondition || "");
+      setDietPreference(savedData.dietPreference || "");
     }
 
-    // ✅ Ensure token is set for all API requests
     const token = localStorage.getItem("token");
     if (token) {
       setAuthToken(token);
@@ -33,7 +34,7 @@ function UserDataForm({ setRecommendation, setLoading, setProgress }) {
   }, []);
 
   const validateInput = () => {
-    if (!age || !weight || !height || !goal || !activityLevel) {
+    if (!age || !weight || !height || !goal || !activityLevel || !dietPreference) {
       setError("All fields are required.");
       return false;
     }
@@ -56,10 +57,19 @@ function UserDataForm({ setRecommendation, setLoading, setProgress }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateInput()) return;
-  
-    const userData = { age, weight, height, goal, activityLevel, healthCondition };
+
+    const userData = {
+      age: Number(age),
+      weight: Number(weight),
+      height: Number(height),
+      goal,
+      activityLevel,
+      healthCondition,
+      dietPreference,
+    };
+
     localStorage.setItem("userData", JSON.stringify(userData));
-  
+
     try {
       if (typeof setLoading === "function") setLoading(true);
       setFormLoading(true);
@@ -67,22 +77,30 @@ function UserDataForm({ setRecommendation, setLoading, setProgress }) {
       if (typeof setRecommendation === "function") setRecommendation("");
 
       const token = localStorage.getItem("token");
-      console.log("📡 Sending user data with token:", token); // ✅ Debugging log
-  
+
+      if (process.env.NODE_ENV === "development") {
+        console.log("📡 Sending user data with token:", token);
+      }
+
       const response = await axios.post(
         "http://localhost:5000/api/ai/ai-recommend",
         userData,
-        { headers: { Authorization: `Bearer ${token}` } } // ✅ Fixed: Include token
+        { headers: { Authorization: `Bearer ${token}` } }
       );
-  
-      console.log("✅ Received AI Response:", response.data);
-  
+
+      if (process.env.NODE_ENV === "development") {
+        console.log("✅ Received AI Response:", response.data);
+      }
+
       if (typeof setProgress === "function") setProgress(70);
-  
-      // ✅ Always store as a string
+
       localStorage.setItem("recommendation", JSON.stringify(response.data.recommendation));
-  
-      navigate("/ai-recommendation-output");
+
+      if (typeof setProgress === "function") setProgress(100);
+
+      setTimeout(() => {
+        navigate("/ai-recommendation-output");
+      }, 500);
     } catch (error) {
       console.error("❌ API Error:", error.response?.data || error.message);
       setError(error.response?.data?.message || "Error getting recommendation.");
@@ -90,12 +108,10 @@ function UserDataForm({ setRecommendation, setLoading, setProgress }) {
       if (typeof setLoading === "function") setLoading(false);
       setFormLoading(false);
       if (typeof setProgress === "function") {
-        setProgress(100);
         setTimeout(() => setProgress(0), 500);
       }
     }
   };
-  
 
   return (
     <div className="form-container">
@@ -136,6 +152,13 @@ function UserDataForm({ setRecommendation, setLoading, setProgress }) {
           <option value="heart-disease">Heart Disease</option>
           <option value="obesity">Obesity</option>
           <option value="pcos">PCOS</option>
+        </select>
+
+        <label>Diet Preference</label>
+        <select value={dietPreference} onChange={(e) => setDietPreference(e.target.value)} required>
+          <option value="">Select Preference</option>
+          <option value="veg">Veg</option>
+          <option value="non-veg">Non-Veg</option>
         </select>
 
         <button type="submit" disabled={formLoading}>
