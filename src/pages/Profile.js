@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -16,6 +16,14 @@ function Profile() {
       return;
     }
 
+    // ✅ Load from localStorage for instant UI
+    const cached = localStorage.getItem("userProfile");
+    if (cached) {
+      setUser(JSON.parse(cached));
+      setLoading(false);
+    }
+
+    // ✅ Fetch fresh profile in background
     async function fetchUserProfile() {
       try {
         const response = await axios.get("http://localhost:5000/api/users/profile", {
@@ -23,16 +31,14 @@ function Profile() {
         });
 
         if (!response.data) {
-          throw new Error("Failed to fetch profile. Please try again.");
+          throw new Error("Failed to fetch profile.");
         }
 
         setUser(response.data);
         localStorage.setItem("userProfile", JSON.stringify(response.data));
       } catch (err) {
         console.error("Error fetching profile:", err);
-        setError("Could not load profile. Please try again.");
-      } finally {
-        setLoading(false);
+        if (!cached) setError("Could not load profile. Please try again.");
       }
     }
 
@@ -45,7 +51,26 @@ function Profile() {
     navigate("/login");
   };
 
-  if (loading) {
+  // ✅ Memoized History Grouping
+  const groupedHistory = useMemo(() => {
+    if (!user?.recommendationHistory) return [];
+
+    const sorted = [...user.recommendationHistory].sort(
+      (a, b) => new Date(b.date) - new Date(a.date)
+    );
+
+    const reduced = sorted.reduce((acc, entry) => {
+      const dateKey = new Date(entry.date).toLocaleDateString();
+      if (!acc[dateKey]) {
+        acc[dateKey] = entry;
+      }
+      return acc;
+    }, {});
+
+    return Object.entries(reduced);
+  }, [user?.recommendationHistory]);
+
+  if (loading && !user) {
     return <p className="loading-text">Loading...</p>;
   }
 
@@ -64,21 +89,10 @@ function Profile() {
         <p><strong>Height:</strong> {user?.height ? `${user.height} cm` : "N/A"}</p>
 
         {/* Recommendation History */}
-        {user?.recommendationHistory?.length > 0 ? (
+        {groupedHistory.length > 0 && (
           <div className="history-section">
             <h3>Recommendation History</h3>
-
-            {Object.entries(
-              user.recommendationHistory
-                .sort((a, b) => new Date(b.date) - new Date(a.date)) // Latest first
-                .reduce((acc, entry) => {
-                  const dateKey = new Date(entry.date).toLocaleDateString();
-                  if (!acc[dateKey]) {
-                    acc[dateKey] = entry; // Keep only the first entry of each date
-                  }
-                  return acc;
-                }, {})
-            ).map(([date, entry], index) => (
+            {groupedHistory.map(([date, entry], index) => (
               <div key={index} className="history-card">
                 <p><strong>Date:</strong> {date}</p>
 
@@ -88,7 +102,7 @@ function Profile() {
                     <p>Plan ID: {entry.dietPlan}</p>
                   </div>
                 ) : (
-                  <p>diet plan for this day.</p>
+                  <p>No diet plan for this day.</p>
                 )}
 
                 {entry.workoutPlan ? (
@@ -97,13 +111,11 @@ function Profile() {
                     <p>Plan ID: {entry.workoutPlan}</p>
                   </div>
                 ) : (
-                  <p>workout plan for this day.</p>
+                  <p>No workout plan for this day.</p>
                 )}
               </div>
             ))}
           </div>
-        ) : (
-          <p></p>
         )}
 
         <button onClick={handleLogout} className="btn-danger">Logout</button>

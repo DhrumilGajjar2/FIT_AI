@@ -1,6 +1,11 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { getUserDietPlans, getUserWorkoutPlans, setAuthToken, getAIRecommendations } from "../utils/api";
+import {
+  getUserDietPlans,
+  getUserWorkoutPlans,
+  setAuthToken,
+  getAIRecommendations,
+} from "../utils/api";
 import axios from "axios";
 
 function Dashboard() {
@@ -16,8 +21,24 @@ function Dashboard() {
 
   const [plans, setPlans] = useState({ dietPlans: [], workoutPlans: [] });
   const [aiRecommendation, setAIRecommendation] = useState(null);
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
+  // ✅ Memoized BMI Calculation
+  const bmi = useMemo(() => {
+    const weightNum = parseFloat(userData.weight);
+    const heightNum = parseFloat(userData.height);
+    return !isNaN(weightNum) && !isNaN(heightNum) && heightNum > 0
+      ? (weightNum / ((heightNum / 100) ** 2)).toFixed(1)
+      : "N/A";
+  }, [userData.weight, userData.height]);
+
+  // ✅ Logout
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate("/login");
+  };
 
   useEffect(() => {
     if (!token) {
@@ -28,6 +49,7 @@ function Dashboard() {
 
     setAuthToken(token);
 
+    // ✅ Fetch User Profile
     const fetchUserData = async () => {
       try {
         const response = await axios.get("http://localhost:5000/api/users/profile", {
@@ -35,12 +57,15 @@ function Dashboard() {
         });
 
         if (response.data) {
-          setUserData({
+          const user = {
             username: response.data.name || "User",
             age: response.data.age || "N/A",
             weight: response.data.weight || "N/A",
             height: response.data.height || "N/A",
-          });
+          };
+
+          setUserData(user);
+          // Optional: localStorage.setItem("userProfile", JSON.stringify(user));
         } else {
           setError("Failed to fetch profile.");
         }
@@ -50,6 +75,7 @@ function Dashboard() {
       }
     };
 
+    // ✅ Fetch Diet and Workout Plans
     const fetchPlans = async () => {
       try {
         const dietResponse = await getUserDietPlans(token);
@@ -61,10 +87,24 @@ function Dashboard() {
         });
       } catch (err) {
         console.error("❌ Error fetching plans:", err);
-        setError("");
+        setError("Could not load workout or diet plans.");
       }
     };
 
+    // ✅ Fetch All Critical Data in Parallel
+    const fetchEssentialData = async () => {
+      try {
+        await Promise.all([fetchUserData(), fetchPlans()]);
+        setLoading(false);
+      } catch (err) {
+        setLoading(false);
+        console.error("❌ Error loading dashboard:", err);
+      }
+    };
+
+    fetchEssentialData();
+
+    // ✅ Lazy Load AI Recommendation
     const fetchAIRecommendation = async () => {
       try {
         const storedData = JSON.parse(localStorage.getItem("userData"));
@@ -80,36 +120,12 @@ function Dashboard() {
       }
     };
 
-    const fetchAll = async () => {
-      await fetchUserData();
-      await fetchPlans();
-      await fetchAIRecommendation();
-      setLoading(false);
-    };
-
-    fetchAll();
+    fetchAIRecommendation();
   }, [token, navigate]);
-
-  const bmi = useMemo(() => {
-    const weightNum = parseFloat(userData.weight);
-    const heightNum = parseFloat(userData.height);
-    return !isNaN(weightNum) && !isNaN(heightNum) && heightNum > 0
-      ? (weightNum / ((heightNum / 100) ** 2)).toFixed(1)
-      : "N/A";
-  }, [userData.weight, userData.height]);
-
-  const handleLogout = () => {
-    localStorage.clear();
-    navigate("/login");
-  };
-
-  if (loading) {
-    return <div className="loading-spinner">Loading your dashboard...</div>;
-  }
 
   return (
     <div className="dashboard-container">
-      <h1>Welcome, {userData.username}! </h1>
+      <h1>Welcome, {userData.username}!</h1>
 
       <div className="profile-summary">
         <h3>Your Profile</h3>
@@ -121,9 +137,36 @@ function Dashboard() {
 
       {error && <p className="error">{error}</p>}
 
-      {/* ✅ AI Recommendation Section */}
+      {/* ✅ Loading UI for Plans */}
+      {loading ? (
+        <div className="loading-spinner">Loading your health plans...</div>
+      ) : (
+        <>
+          <div className="section">
+            <h2>Diet & Workout Plans</h2>
+            <ul>
+              {plans.dietPlans.length > 0 ? (
+                plans.dietPlans.map((plan, idx) => (
+                  <li key={`diet-${idx}`}>{plan.title || "Diet Plan"}</li>
+                ))
+              ) : (
+                <li>No diet plans available.</li>
+              )}
+              {plans.workoutPlans.length > 0 ? (
+                plans.workoutPlans.map((plan, idx) => (
+                  <li key={`workout-${idx}`}>{plan.title || "Workout Plan"}</li>
+                ))
+              ) : (
+                <li>No workout plans available.</li>
+              )}
+            </ul>
+          </div>
+        </>
+      )}
+
+      {/* ✅ Lazy Loaded AI Recommendation Section */}
       <div className="section">
-        <h2>AI-Generated Health Plan </h2>
+        <h2>AI-Generated Health Plan</h2>
         {aiRecommendation ? (
           <div className="ai-recommendation">
             <h3>Calories: {aiRecommendation.calories}</h3>
@@ -143,7 +186,7 @@ function Dashboard() {
             <p><strong>Exercises:</strong> {aiRecommendation.workout_plan?.exercises}</p>
           </div>
         ) : (
-          <p>No AI recommendation available yet. </p>
+          <p>Fetching your AI health plan...</p>
         )}
       </div>
 
